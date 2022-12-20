@@ -1,0 +1,5 @@
+<h2>Вопросы</h2>
+
+<% @question.each do |question| %>
+	<p> <%= link_to "Вопрос #{question.id}", question_path(id: question.id) %></p>
+	<% end %>
