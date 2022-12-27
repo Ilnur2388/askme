@@ -26,6 +26,9 @@ class QuestionsController < ApplicationController
 	end
 
 	def index
-		@question = Question.all.limit(10)
+		@question = Question.all
+	end
+
+	def new
 	end
 end
