@@ -1,8 +1,4 @@
-<h2 class = "title-lg">Новый вопрос</h2>
-<%= form_with model: @question do |form| %> 
-<p><%= form.label :body, 'Текст вопроса' %></p>
-<p><%= form.text_area :body, rows: 8 %></p>
-<p><%= form.label :user_id %></p>
-<p><%= form.text_field :user_id %></p>
-<p><%= form.submit 'Создать' %></p>
-<% end %>
+<div class="container">
+	<h2 class="title-lg mb">Новый вопрос</h2>
+	<%= render 'form', question: @question	%>
+</div>
