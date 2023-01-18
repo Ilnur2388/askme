@@ -1,5 +1,10 @@
 body {
+	color: #03071E;
 	font-family: 'Trebuchet MS', sans-serif;
+}
+
+a {
+	color: #DC2F02;
 }
 
 .title-lg {

@@ -21,7 +21,8 @@ class QuestionsController < ApplicationController
 	end
 
 	def index
-		@question = Question.all
+		@question = Question.new
+		@questions = Question.all
 	end
 
 	def new

@@ -1,1 +1,15 @@
 @import "text.css";
+@import "layout.css";
+@import "button.css";
+@import "font-awesome";
+@import "form.css"
+/*
+ *= require reset
+ *
+ *= require font-awesome
+ *= require text
+ *= require spacing
+ *= require layout
+ *= require button
+ *= require form
+ */
