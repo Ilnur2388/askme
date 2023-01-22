@@ -1,0 +1,14 @@
+<div class="mb-sm">
+	<%= question.body %>
+</div>
+
+<div class="text-sm question-footer">
+	<div class="text-grey">
+	<%= l(question.created_at, format: :short) %>
+	</div>
+
+	<div>
+		<%= link_to 'Изменить вопрос', edit_question_path(question) %>
+		<%= button_to 'Удалить вопрос', question_path(question), method: :delete %>
+	</div>
+</div>
