@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+ENV['RAILS_ENV'] = ARGV.first if ARGV.first
+
+plan = %w[
+  db:environment:set
+]
+
+sql = ENV['SQL']
+
+unless sql
+  plan += %w[
+    db:migrate
+  ]
+  development = ENV['RAILS_ENV'] == 'development' || ENV['RAILS_ENV'].nil?
+  plan << 'db:schema:dump' if development
+end
+
+def retrieve_database_configuration
+  require_relative '../config/environment'
+  Rails.configuration.database_configuration[Rails.env]
+rescue ActiveRecord::NoDatabaseError
+  {
+    'username' => ENV['DB_USER'],
+    'host' => ENV['DB_HOST'],
+    'database' => "pims_#{ENV['RAILS_ENV'] || 'development'}",
+    'password' => ENV['DB_PASS'],
+  }
+end
+
+database_configuration = retrieve_database_configuration
+user = database_configuration['username']
+password = database_configuration['password']
+host = database_configuration['host']
+db_name = database_configuration['database']
+system "PGPASSWORD=#{password} dropdb -U #{user} -h #{host} -f #{db_name}"
+system "PGPASSWORD=#{password} createdb -U #{user} -h #{host} #{db_name}"
+
+system("rails #{plan.join(' ')}")
+system("PGPASSWORD=#{password} rails db < #{sql}") if sql
