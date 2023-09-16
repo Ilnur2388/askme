@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user
+
   def new
     session[:current_time] = Time.now
     @user = User.new
@@ -9,9 +11,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to root_path, notice: 'Вы успешно зарегистировались!'
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "Пожалуйста, проверьте свою электронную почту, чтобы активировать учетную запись."
+      redirect_to root_url
     else
-      flash.now[:alert] = 'Вы неправильно заполнили поля регистрации'
       render :new
     end
   end
@@ -46,4 +49,10 @@ class UsersController < ApplicationController
     :name, :nickname, :email, :password, :password_confirmation)
   end
 
+  def logged_in_user
+    unless user.present?
+      flash[:error] = "Пожалуйста, зарегистрируйтесь на сайте"
+      redirect_to :new
+    end
+  end
 end
