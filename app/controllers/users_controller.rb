@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user
 
   def new
     session[:current_time] = Time.now
@@ -47,12 +46,5 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
     :name, :nickname, :email, :password, :password_confirmation)
-  end
-
-  def logged_in_user
-    unless user.present?
-      flash[:error] = "Пожалуйста, зарегистрируйтесь на сайте"
-      redirect_to :new
-    end
   end
 end
